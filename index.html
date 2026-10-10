@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+
+    <!--
+      ================================================================
+      移动端浏览器兼容（微信内置浏览器 / QQ浏览器 / UC / 老版 Safari）
+      ================================================================
+      viewport-fit=cover        → 适配 iPhone 刘海屏安全区
+      user-scalable=no          → 禁止双击缩放，避免误触放大（配合 CSS touch-action）
+      format-detection          → 关闭老内核把数字识别成电话号码的自动加链接
+      x5-*                      → QQ浏览器 / 微信内置的 X5 内核专属指令
+      apple-mobile-web-app-*    → iOS 添加到主屏后的全屏表现
+      ================================================================
+    -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="format-detection" content="telephone=no,email=no,address=no,date=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="小马快跑秋招版" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="x5-orientation" content="portrait" />
+    <meta name="x5-fullscreen" content="false" />
+    <meta name="x5-page-mode" content="app" />
+    <meta name="browsermode" content="application" />
+    <meta name="theme-color" content="#F7599B" />
+    <meta name="color-scheme" content="light" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <meta
+      name="description"
+      content="小马快跑秋招版邮箱 Pro：登录邮箱自动整理秋招邮件，汇总 120+ 家企业的可投递岗位与截止时间，支持公司对比与投递进度管理。"
+    />
+    <meta name="keywords" content="秋招,校园招聘,求职,投递,简历,面试,企业库,截止时间" />
+
+    <meta property="og:title" content="小马快跑秋招版邮箱 Pro" />
+    <meta
+      property="og:description"
+      content="邮件整理 + 企业投递资源库（120+ 家）+ 公司对比 + 投递进度管理"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://qiuzhao-mail-helper.app.workbuddy.host/" />
+    <meta
+      property="og:image"
+      content="https://qiuzhao-mail-helper.app.workbuddy.host/favicon.svg"
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://qiuzhao-mail-helper.app.workbuddy.host/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <title>小马快跑秋招版邮箱 Pro</title>
+
+    <!--
+      开屏兜底：在 JS bundle 解析完成前先渲染一个同色系底色 + 旋转小圆点，
+      避免微信内置浏览器（JS 执行较慢）出现长时间白屏。
+      真实的开屏动画由 React 组件 SplashScreen 接管，加载完成后自动替换。
+    -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #fffbfd;
+      }
+      #boot {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, #fff5f9 0%, #fffbfd 55%, #fff0f6 100%);
+        z-index: 9999;
+        transition: opacity 0.3s ease;
+      }
+      #boot.boot-hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      #boot .boot-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 9999px;
+        background: #ff77b0;
+        box-shadow: 0 0 0 0 rgba(255, 119, 176, 0.6);
+        animation: bootPulse 1.1s ease-out infinite;
+      }
+      @keyframes bootPulse {
+        0% {
+          transform: scale(0.7);
+          box-shadow: 0 0 0 0 rgba(255, 119, 176, 0.55);
+        }
+        70% {
+          transform: scale(1);
+          box-shadow: 0 0 0 16px rgba(255, 119, 176, 0);
+        }
+        100% {
+          transform: scale(0.7);
+          box-shadow: 0 0 0 0 rgba(255, 119, 176, 0);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #boot .boot-dot {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="boot" aria-hidden="true"><div class="boot-dot"></div></div>
+    <div id="root"></div>
+    <noscript>
+      <div
+        style="
+          max-width: 520px;
+          margin: 80px auto;
+          padding: 24px;
+          font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+          text-align: center;
+          color: #5b4b57;
+        "
+      >
+        <p style="font-size: 16px; font-weight: 600">需要开启 JavaScript 才能使用</p>
+        <p style="font-size: 13px; color: #8a7a86; line-height: 1.7">
+          小马快跑秋招版邮箱依赖 JavaScript 运行。<br />
+          请在浏览器设置中开启 JavaScript 后刷新页面。
+        </p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      /*
+       * 兜底移除启动占位：
+       * 正常情况下 main.tsx 渲染完首帧后会主动移除；这里再设一层保险，
+       * 防止微信/QQ 浏览器某些内核下 React 首帧回调延迟导致占位不消失。
+       */
+      setTimeout(function () {
+        var boot = document.getElementById('boot');
+        if (boot && !boot.classList.contains('boot-hidden')) {
+          boot.classList.add('boot-hidden');
+          setTimeout(function () {
+            if (boot.parentNode) boot.parentNode.removeChild(boot);
+          }, 320);
+        }
+      }, 4000);
+    </script>
+  </body>
+</html>
